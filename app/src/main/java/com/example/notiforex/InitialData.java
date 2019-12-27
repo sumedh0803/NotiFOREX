@@ -87,6 +87,9 @@ public class InitialData extends AppIntro {
             e.printStackTrace();
         }
         Intent i = new Intent(InitialData.this, HomeScreen.class);
+        //String[] toHomeScreen = new String[] {homedata,intervaldata,checkeddata};
+        //i.putExtra("selections",toHomeScreen);
+
         startActivity(i);
         finish();
 
@@ -137,6 +140,7 @@ public class InitialData extends AppIntro {
                 checkBox = oldFragment.getActivity().findViewById(id);
                 if(checkBox.isChecked()) {
                     checkeddata += checkBox.getText().toString() + "\n";
+
                 }
             }
         }
