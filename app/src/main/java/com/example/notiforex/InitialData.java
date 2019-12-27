@@ -51,6 +51,9 @@ public class InitialData extends AppIntro {
         //Optional Parameters, defined in AppIntro library
         setBarColor(Color.parseColor("#28000000"));
         setSeparatorColor(Color.parseColor("#2196F3"));
+
+        //this hides skip button
+        showSkipButton(false);
     }
 
     @Override
