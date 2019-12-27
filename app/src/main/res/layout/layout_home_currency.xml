@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Written By: Sumedh Sen
+Date: 12/26/2019
+ -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="#FFF">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/ic_home_black_24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter your home currency. You can change this later."
+        android:textSize="26sp"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="#9C27B0"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rghome"
+        android:layout_marginTop="20dp">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="US Dollars (USD)"
+            android:id="@+id/homeusd"
+            android:textSize="18dp"
+            android:textColor="#9C27B0"
+            android:layout_marginBottom="20dp"
+            android:buttonTint="#9C27B0"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Indian Rupees (INR)"
+            android:id="@+id/homeinr"
+            android:textSize="18dp"
+            android:textColor="#9C27B0"
+            android:layout_marginBottom="20dp"
+            android:buttonTint="#9C27B0"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pound Sterling (GBP)"
+            android:id="@+id/homegbp"
+            android:textSize="18dp"
+            android:textColor="#9C27B0"
+            android:layout_marginBottom="20dp"
+            android:buttonTint="#9C27B0"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Japanese Yen (JPY)"
+            android:id="@+id/homejpy"
+            android:textSize="18dp"
+            android:textColor="#9C27B0"
+            android:layout_marginBottom="20dp"
+            android:buttonTint="#9C27B0"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Australian Dollars (AUD)"
+            android:id="@+id/homeaud"
+            android:textSize="18dp"
+            android:textColor="#9C27B0"
+            android:layout_marginBottom="20dp"
+            android:buttonTint="#9C27B0"/>
+
+    </RadioGroup>
+
+
+</LinearLayout>
