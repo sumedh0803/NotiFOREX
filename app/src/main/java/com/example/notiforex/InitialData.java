@@ -4,8 +4,6 @@ package com.example.notiforex;
  * Date: 12/26/2019
  * */
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;

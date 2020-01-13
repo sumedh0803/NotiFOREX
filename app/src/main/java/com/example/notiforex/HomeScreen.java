@@ -1,21 +1,23 @@
 package com.example.notiforex;
-/**
- * Written By: Sumedh Sen
- * Date: 12/26/2019
- * */
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class HomeScreen extends AppCompatActivity {
 
@@ -27,12 +29,14 @@ public class HomeScreen extends AppCompatActivity {
     TextView foreignCurr;
     TextView rate;
     TextView trend;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
+        setContentView(R.layout.activity_main2);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         homeCurr = findViewById(R.id.homeCurr);
         foreignCurr = findViewById(R.id.foreignCurr);
         rate = findViewById(R.id.rate);
@@ -47,15 +51,16 @@ public class HomeScreen extends AppCompatActivity {
         rate.setText("Current Conversion Rate: ");
         trend.setText("Your home currency has since the past "+duration);
 
-
-
-
-      
-        
-
-
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(HomeScreen.this,Settings.class);
+                startActivity(i);
+            }
+        });
     }
-    
+
     public void getHomeCurrency()
     {
 
@@ -123,5 +128,18 @@ public class HomeScreen extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getHomeCurrency();
+        getForeignCurrency();
+        getDuration();
+        homeCurr.setText("Your Home Currency is: "+homeCurrency);
+        foreignCurr.setText("You are tracking: "+foreignCurrency);
+        rate.setText("Current Conversion Rate: ");
+        trend.setText("Your home currency has since the past "+duration);
+
     }
 }
