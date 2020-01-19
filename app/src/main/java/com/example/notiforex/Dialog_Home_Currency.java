@@ -42,50 +42,6 @@ public class Dialog_Home_Currency extends AppCompatDialogFragment {
 
         View view = inflater.inflate(R.layout.dialog_homecurrency, null);
 
-        builder.setView(view).setTitle("Change Home Currency").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        })
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                        if(rb1.isChecked())
-                        {
-                            button = 1;
-                            listener.datareturn(id, button);
-                        }
-                        else if(rb2.isChecked())
-                        {
-                            button = 2;
-                            listener.datareturn(id, button);
-                        }
-                        else if(rb3.isChecked())
-                        {
-                            button = 3;
-                            listener.datareturn(id, button);
-                        }
-                        else if(rb4.isChecked())
-                        {
-                            button = 4;
-                            listener.datareturn(id, button);
-                        }
-                        else if(rb5.isChecked())
-                        {
-                            button = 5;
-                            listener.datareturn(id, button);
-                        }
-
-
-                        // Check which button was clicked
-                        // Write the appropriate "click" to the respective file
-
-                    }
-                });
-
         rb1 = view.findViewById(R.id.radioButton);
         rb2 = view.findViewById(R.id.radioButton2);
         rb3 = view.findViewById(R.id.radioButton3);
@@ -110,6 +66,51 @@ public class Dialog_Home_Currency extends AppCompatDialogFragment {
 
         }
 
+        builder.setView(view)
+                .setTitle("Change Home Currency")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {}})
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(rb1.isChecked())
+                        {
+                            button = 1;
+                            listener.datareturn(id, button,rb1.getText().toString());
+                            startWorker(id,rb1.getText().toString());
+                        }
+                        else if(rb2.isChecked())
+                        {
+                            button = 2;
+                            listener.datareturn(id, button,rb2.getText().toString());
+                            startWorker(id,rb1.getText().toString());
+                        }
+                        else if(rb3.isChecked())
+                        {
+                            button = 3;
+                            listener.datareturn(id, button,rb3.getText().toString());
+                            startWorker(id,rb1.getText().toString());
+                        }
+                        else if(rb4.isChecked())
+                        {
+                            button = 4;
+                            listener.datareturn(id, button,rb4.getText().toString());
+                            startWorker(id,rb1.getText().toString());
+                        }
+                        else if(rb5.isChecked())
+                        {
+                            button = 5;
+                            listener.datareturn(id, button,rb5.getText().toString());
+                            startWorker(id,rb1.getText().toString());
+                        }
+
+
+                        // Check which button was clicked
+                        // Write the appropriate "click" to the respective file
+
+                    }
+                });
 
 
         return builder.create();
@@ -127,7 +128,12 @@ public class Dialog_Home_Currency extends AppCompatDialogFragment {
         }
     }
 
+    private void startWorker(int id, String text)
+    {
+
+    }
+
     public interface Listener{
-        void datareturn(int id, int button);
+        void datareturn(int id, int button,String btnText);
     }
 }

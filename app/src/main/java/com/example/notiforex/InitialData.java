@@ -4,35 +4,68 @@ package com.example.notiforex;
  * Date: 12/26/2019
  * */
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class InitialData extends AppIntro {
 
 
+    int NOTIFICATION_ID = 0;
+    private static final String ACTION_NOTIFY =
+            "com.example.notiforex.ACTION_NOTIFY";
+
+    String TAG = "initialdata.java";
     RadioGroup rghome,rginterval;
     String homedata = "";
     String intervaldata = "";
     String checkeddata = "";
+
+
+    String homeUnit = null;
+    String foreignUnit = null;
     /**Here, we make use of the library AppIntro, to add fragments that take initial data like home currency
      * foreign currencies and update interval from the user
      * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Intent notifyIntent = new Intent(ACTION_NOTIFY);
+
 
         //Initialising the 3 fragments
         Fragment HomeCurrency,ForeignCurrency,Intervals;
@@ -87,12 +120,48 @@ public class InitialData extends AppIntro {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Intent i = new Intent(InitialData.this, HomeScreen.class);
-        //String[] toHomeScreen = new String[] {homedata,intervaldata,checkeddata};
-        //i.putExtra("selections",toHomeScreen);
+        int time = Integer.parseInt(intervaldata.substring(0,intervaldata.indexOf(" ")));
 
-        startActivity(i);
-        finish();
+        Constraints constraints = new Constraints.Builder()
+                .build();
+
+
+        /*Log.i(TAG, "started");
+        Log.i("homeUnit", homeUnit);
+        Log.i("foreignUnit", foreignUnit);*/
+        Data inputData = new Data.Builder()
+                .putString("homeUnit", homeUnit)
+                .putString("foreignUnit", foreignUnit)
+                .build();
+
+
+        final WorkManager mWorkManager = WorkManager.getInstance();
+        final PeriodicWorkRequest mRequest = new PeriodicWorkRequest.Builder(ForexWorker.class,time, TimeUnit.HOURS)
+                .setInputData(inputData)
+                .build();
+        System.out.println(System.currentTimeMillis());
+        WorkManager.getInstance().cancelAllWork();
+        mWorkManager.enqueue(mRequest);
+        System.out.println(System.currentTimeMillis());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(InitialData.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(getBaseContext()).inflate(R.layout.customdialog, viewGroup, false);
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("Loading..");
+        alertDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.dismiss();
+                Intent i = new Intent(InitialData.this, HomeScreen.class);
+                startActivity(i);
+                finish();
+            }
+        },3000);
+
 
     }
 
@@ -114,6 +183,7 @@ public class InitialData extends AppIntro {
                 rb = oldFragment.getActivity().findViewById(id);
                 if (rb.isChecked()) {
                     homedata = rb.getText().toString();
+                    homeUnit = homedata.substring(homedata.length()-4,homedata.length()-1);
                 }
             }
         }
@@ -127,6 +197,7 @@ public class InitialData extends AppIntro {
                 rb = oldFragment.getActivity().findViewById(id);
                 if (rb.isChecked()) {
                     intervaldata = rb.getText().toString();
+
                 }
             }
 
@@ -140,10 +211,11 @@ public class InitialData extends AppIntro {
             for (int id:checkids) {//checking which checkboxes were selected
                 checkBox = oldFragment.getActivity().findViewById(id);
                 if(checkBox.isChecked()) {
-                    checkeddata += checkBox.getText().toString() + "\n";
+                    checkeddata += checkBox.getText().toString();
 
                 }
             }
+            foreignUnit = checkeddata.substring(checkeddata.length()-4,checkeddata.length()-1);
         }
     }
 }
