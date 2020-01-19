@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -47,6 +48,7 @@ public class Dialog_Home_Currency extends AppCompatDialogFragment {
         rb3 = view.findViewById(R.id.radioButton3);
         rb4 = view.findViewById(R.id.radioButton4);
         rb5 = view.findViewById(R.id.radioButton5);
+        builder.setTitle("Change Home Currency");
 
         if(id == 2)
         {
@@ -55,19 +57,20 @@ public class Dialog_Home_Currency extends AppCompatDialogFragment {
             rb3.setText("12 Hrs");
             rb4.setText("24 Hrs");
             rb5.setVisibility(View.INVISIBLE);
+            builder.setTitle("Change Update Frequency");
         }
-        else
+        else if(id == 1)
         {
             rb1.setText("US Dollars (USD)");
             rb2.setText("Indian Rupees (INR)");
             rb3.setText("Pound Sterling (GBP)");
             rb4.setText("Japanese Yen (JPY)");
             rb5.setText("Australian Dollars (AUD)");
+            builder.setTitle("Change Foreign Currency");
 
         }
 
         builder.setView(view)
-                .setTitle("Change Home Currency")
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {}})
